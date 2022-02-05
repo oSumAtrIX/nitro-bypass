@@ -10,7 +10,7 @@ module.exports = class NitroBypassSettings extends React.Component {
 		return (
 			<>
 				<SliderInput
-					note="Set the size of the emotes."
+					note="The size of the emotes."
 					minValue={16}
 					maxValue={128}
 					stickToMarkers

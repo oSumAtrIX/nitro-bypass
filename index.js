@@ -35,16 +35,16 @@ module.exports = class NitroBypass extends Plugin {
 				emoji.id
 			}>`;
 
-			const emojiUrl = emoji.url;
+			let url = emoji.url;
 
 			// change the size of the emojie in the url
 			const emojiSize = this.settings.get('size', 48);
 			if (emojiSize != 48) {
-				emojiUrl = emojiUrl.replace(/\?size=[0-9]+/, `?size=${emojiSize}`);
+				url = url.replace(/\?size=[0-9]+/, `?size=${emojiSize}`);
 			}
 
 			// replace the message containing the emojie with the url
-			message.content = message.content.replace(emoteString, emojiUrl);
+			message.content = message.content.replace(emoteString, url);
 		});
 
 		return args;
