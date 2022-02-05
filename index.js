@@ -18,11 +18,11 @@ module.exports = class NitroBypass extends Plugin {
 		// spoof client side premium
 		currentUser.getCurrentUser().premiumType = 2;
 
-		const emojieReplacePatch = this.emojieReplacePatch.bind(this);
-		inject('replace-on-send', message, 'sendMessage', emojieReplacePatch, true);
+		const emojiReplacePatch = this.emojiReplacePatch.bind(this);
+		inject('replace-on-send', message, 'sendMessage', emojiReplacePatch, true);
 	}
 
-	emojieReplacePatch(args) {
+	emojiReplacePatch(args) {
 		const message = args[1];
 		const emojies = message.validNonShortcutEmojis;
 
@@ -30,21 +30,21 @@ module.exports = class NitroBypass extends Plugin {
 			// skip discord emojies
 			if (!emoji.require_colons) return;
 
-			// create the emojie string which we will replace
-			const emoteString = `<${emoji.animated ? 'a' : ''}:${emoji.name}:${
+			// create the emoji string which we will replace
+			const emoji = `<${emoji.animated ? 'a' : ''}:${emoji.name}:${
 				emoji.id
 			}>`;
 
 			let url = emoji.url;
 
-			// change the size of the emojie in the url
+			// change the size of the emoji in the url
 			const emojiSize = this.settings.get('size', 48);
 			if (emojiSize != 48) {
 				url = url.replace(/\?size=[0-9]+/, `?size=${emojiSize}`);
 			}
 
-			// replace the message containing the emojie with the url
-			message.content = message.content.replace(emoteString, url);
+			// replace the message containing the emoji with the url
+			message.content = message.content.replace(emojiString, url);
 		});
 
 		return args;
