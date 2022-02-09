@@ -1,6 +1,6 @@
 # Nitro Bypass
 
-Send any emoji and screen share in high quality without Discord Nitro
+Send emojis and screen share in high quality without Discord Nitro
 
 # Powercord Guideline
 [![Do not attempt to circumvent permissions](https://user-images.githubusercontent.com/13122796/152648190-6a3b7610-62d2-492d-8569-7f43dcd152ce.jpeg)](https://powercord.dev/guidelines)

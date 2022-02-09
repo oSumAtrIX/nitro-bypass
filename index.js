@@ -24,10 +24,10 @@ module.exports = class NitroBypass extends Plugin {
 
 	emojiReplacePatch(args) {
 		const message = args[1];
-		const emojies = message.validNonShortcutEmojis;
+		const emojis = message.validNonShortcutEmojis;
 
-		emojies.forEach((emoji) => {
-			// skip discord emojies
+		emojis.forEach((emoji) => {
+			// skip discord emojis
 			if (!emoji.require_colons) return;
 
 			// create the emoji string which we will replace
