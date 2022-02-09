@@ -8,7 +8,7 @@ module.exports = class NitroBypass extends Plugin {
 	async startPlugin() {
 		powercord.api.settings.registerSettings(this.entityID, {
 			category: this.entityID,
-			label: 'NitroBypass',
+			label: 'Nitro Bypass',
 			render: Settings,
 		});
 

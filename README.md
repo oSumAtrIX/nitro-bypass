@@ -1,4 +1,4 @@
-# NitroBypass
+# Nitro Bypass
 
 Send any emoji and screen share in high quality without Discord Nitro
 
