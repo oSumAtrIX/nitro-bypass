@@ -39,9 +39,7 @@ module.exports = class NitroBypass extends Plugin {
 
 			// change the size of the emoji in the url
 			const emojiSize = this.settings.get('size', 48);
-			if (emojiSize != 48) {
-				url = url.replace(/\?size=[0-9]+/, `?size=${emojiSize}`);
-			}
+			url = url.replace(/\?size=[0-9]+/, `?size=${emojiSize}`);
 
 			// replace the message containing the emoji with the url
 			message.content = message.content.replace(emojiString, url);
