@@ -16,7 +16,17 @@ module.exports = class NitroBypass extends Plugin {
 		const currentUser = await getModule(['getCurrentUser']);
 
 		// spoof client side premium
-		currentUser.getCurrentUser().premiumType = 2;
+		this.log("Checking for currentUser...");
+		var x = setInterval(() => {
+			var user = currentUser.getCurrentUser();
+			if(user != null) {
+				user.premiumType = 2;
+				this.log("Spoofed!");
+				clearInterval(x);
+			} else {
+				this.log("currentUser not found, retrying in 1s...");
+			}
+		}, 1000);
 
 		const emojiReplacePatch = this.emojiReplacePatch.bind(this);
 		inject('replace-on-send', message, 'sendMessage', emojiReplacePatch, true);
