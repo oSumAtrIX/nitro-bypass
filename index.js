@@ -12,7 +12,7 @@ module.exports = class NitroBypass extends Plugin {
 			render: Settings,
 		});
 
-		const message = await getModule(['sendMessage', 'editMessage']);
+		this.message = await getModule(['sendMessage', 'editMessage', "sendClydeError", "sendStickers"]);
 		const currentUser = await getModule(['getCurrentUser']);
 
 		// spoof client side premium
@@ -27,7 +27,29 @@ module.exports = class NitroBypass extends Plugin {
 		}, 1000);
 
 		const emojiReplacePatch = this.emojiReplacePatch.bind(this);
-		inject('replace-on-send', message, 'sendMessage', emojiReplacePatch, true);
+		const stickerReplacePatch = this.stickerReplacePatch.bind(this);
+		const supressClyde = this.supressClyde.bind(this);
+		
+		inject('replace-on-send', this.message, 'sendMessage', emojiReplacePatch, true);
+		inject('supress-clyde', this.message, 'sendClydeError', supressClyde, true);
+		inject('send-stickers', this.message, 'sendStickers', stickerReplacePatch, true);
+	}
+	
+	supressClyde(args) {
+		// make clyde kill himself on sticker error
+		if (args[1] === 50081)
+			return [0, 0];
+		else
+			return args;
+	}
+
+	stickerReplacePatch(args) {
+		// get the message id and the sticker id, then craft a new message :)
+		const channel_id = args[0];
+		const sticker_id = args[1][0];
+		const sticker_uri = `https://media.discordapp.net/stickers/${sticker_id}.png?size=320`;
+		this.message.sendMessage(channel_id, {content: sticker_uri, invalidEmojis: [], tts: false, validNonShortcutEmojis: []});
+		return [];
 	}
 
 	emojiReplacePatch(args) {
@@ -52,7 +74,6 @@ module.exports = class NitroBypass extends Plugin {
 			// replace the message containing the emoji with the url
 			message.content = message.content.replace(emojiString, url);
 		});
-
 		return args;
 	}
 
