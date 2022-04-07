@@ -39,7 +39,7 @@ module.exports = class NitroBypass extends Plugin {
 			if (!emoji.require_colons) return;
 
 			// create the emoji string which we will replace
-			const emojiString = `<${emoji.animated ? 'a' : ''}:${emoji.name}:${
+			const emojiString = `<${emoji.animated ? 'a' : ''}:${emoji.originalName || emoji.name}:${
 				emoji.id
 			}>`;
 
