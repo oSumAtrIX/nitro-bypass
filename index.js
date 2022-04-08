@@ -14,6 +14,7 @@ module.exports = class NitroBypass extends Plugin {
 
 		const message = await getModule(['sendMessage', 'editMessage']);
 		const currentUser = await getModule(['getCurrentUser']);
+		this.getGuildId = (await getModule(['getLastSelectedGuildId'])).getGuildId;
 
 		// spoof client side premium
 		let tries = 1;
@@ -33,10 +34,18 @@ module.exports = class NitroBypass extends Plugin {
 	emojiReplacePatch(args) {
 		const message = args[1];
 		const emojis = message.validNonShortcutEmojis;
+		const guildId = this.getGuildId();
 
 		emojis.forEach((emoji) => {
 			// skip discord emojis
 			if (!emoji.require_colons) return;
+
+			// skip available emojis
+			if (
+				!this.settings.get('spoofAvailableEmojis', false) &&
+				emoji.guildId === guildId && !emoji.animated
+			)
+				return;
 
 			// create the emoji string which we will replace
 			const emojiString = `<${emoji.animated ? 'a' : ''}:${emoji.originalName || emoji.name}:${

@@ -1,5 +1,5 @@
 const { React } = require('powercord/webpack');
-const { SliderInput } = require('powercord/components/settings');
+const { SliderInput, SwitchItem } = require('powercord/components/settings');
 
 module.exports = class NitroBypassSettings extends React.Component {
 	constructor(props) {
@@ -20,6 +20,13 @@ module.exports = class NitroBypassSettings extends React.Component {
 				>
 					Emoji size
 				</SliderInput>
+				<SwitchItem
+					note="Also replaces non-animated emojis of the current guild with links."
+					value={this.props.getSetting('spoofAvailableEmojis', false)}
+					onChange={() => this.props.toggleSetting('spoofAvailableEmojis')}
+				>
+					Spoof available emojis
+				</SwitchItem>
 			</>
 		);
 	}
