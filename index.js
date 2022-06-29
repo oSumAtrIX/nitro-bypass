@@ -12,7 +12,7 @@ module.exports = class NitroBypass extends Plugin {
 			render: Settings,
 		});
 
-		const message = await getModule(['sendMessage', 'editMessage']);
+		const parse = await getModule(['parse', 'parsePreprocessor']);
 		const currentUser = await getModule(['getCurrentUser']);
 		this.getGuildId = (await getModule(['getLastSelectedGuildId'])).getGuildId;
 
@@ -28,11 +28,10 @@ module.exports = class NitroBypass extends Plugin {
 		}, 1000);
 
 		const emojiReplacePatch = this.emojiReplacePatch.bind(this);
-		inject('replace-on-send', message, 'sendMessage', emojiReplacePatch, true);
+		inject('replace-on-parse', parse, 'parse', emojiReplacePatch, false);
 	}
 
-	emojiReplacePatch(args) {
-		const message = args[1];
+	emojiReplacePatch(args, message) {
 		const emojis = message.validNonShortcutEmojis;
 		const guildId = this.getGuildId();
 
@@ -62,12 +61,12 @@ module.exports = class NitroBypass extends Plugin {
 			message.content = message.content.replace(emojiString, url);
 		});
 
-		return args;
+		return message;
 	}
 
 	pluginWillUnload() {
 		powercord.api.settings.unregisterSettings(this.entityID);
 
-		uninject('replace-on-send');
+		uninject('replace-on-parse');
 	}
 };
